@@ -26,7 +26,7 @@ def main():
     print()
 
     for i, qry in enumerate(qry_list):
-        a = BLASTLike(ref, qry, int(args.k), int(args.s), verbose=True)
+        a = BLASTLike(ref, qry, int(args.k), int(args.s), verbose=False)
         msp = a.align()
         msp_r_start = msp["r"][0] if msp else None
         print(f"Query Sequence {i + 1}: " + (f"{msp_r_start}\t(Additional Info: {msp})" if msp else f"No alignment found"))

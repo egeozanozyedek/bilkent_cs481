@@ -21,7 +21,7 @@ class BLASTLike:
         self.ref = reference
         self.qry = query
         self.k = k
-        self.tresh = s
+        self.thresh = s
         self.hash_table = dict()
         self.q = 2 ** 31 - 1  # this is the max int value for 32-bit computers. It's used in hashing
 
@@ -149,7 +149,7 @@ class BLASTLike:
 
 
                 # if the score after seed and extend is higher than the threshold, add it to the HSP list if its a unique pair
-                if current_score >= self.tresh:
+                if current_score >= self.thresh:
                     pair = {"q": (qry_i, qry_j + 1), "r": (ref_i, ref_j + 1), "score": current_score}
                     if pair not in HSP:
                         HSP.append(pair)
@@ -221,6 +221,6 @@ class BLASTLike:
                 max_score = score
 
 
-        logging.debug(f"{max_scoring_pair}")
+        logging.debug(f"{V}{max_scoring_pair}")
 
         return max_scoring_pair
