@@ -221,6 +221,6 @@ class BLASTLike:
                 max_score = score
 
 
-        logging.debug(f"{V}{max_scoring_pair}")
+        logging.debug(f"{max_scoring_pair}")
 
         return max_scoring_pair
