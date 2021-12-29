@@ -1,18 +1,5 @@
 import argparse
-import numpy as np
-
-
-
-"""
-
-Move through the ref from (0, k-1) to (1, k) to ... Add the start index of each kmer into a dict (key is the kmer and value is a list that cont
-appends indices as the kmers are found). 
-
-"""
-
-def read_fasta(fasta_dir):
-    with open(fasta_dir) as fasta:
-        sequence = fasta.read().split("\n", 1)[1].replace("\n", "")
+from BLASTLike import BLASTLike
 
 
 def main():
@@ -27,18 +14,23 @@ def main():
 
     args = parser.parse_args()
 
-    fasta_dir, aln_dir, out_dir, scoring = args.fasta, args.aln, args.out, (args.match, args.mismatch, args.gap)
+    ref_dir, qry_dir = args.ref, args.qry
 
-    MSA = MSA(scoring, profile, sequence)
-    aligned_seq = MSA.build()
+    with open(ref_dir) as fasta:
+        ref = fasta.read().split("\n", 1)[1].replace("\n", "")
 
-    print(profile_raw)
-    print("sequence " + aligned_seq)
+    with open(qry_dir) as fasta:
+        qry_list = [seq.split("\n", 1)[1].replace("\n", "") for seq in fasta.read().split(">")[1:]]
 
-    with open(out_dir, "w") as out:
-        out.write(profile_raw)
-        out.write("\nsequence " + aligned_seq)
-        out.close()
+    print()
+
+    for i, qry in enumerate(qry_list):
+        a = BLASTLike(ref, qry, int(args.k), int(args.s), verbose=False)
+        msp = a.align()
+        msp_r_start = msp["r"][0] if msp else None
+        print(f"Query Sequence {i + 1}: " + (f"{msp_r_start}\t(Additional Info: {msp})" if msp else f"No alignment found"))
+
+    print()
 
 
 if __name__ == '__main__':
