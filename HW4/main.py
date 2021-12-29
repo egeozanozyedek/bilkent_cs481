@@ -29,7 +29,7 @@ def main():
         a = BLASTLike(ref, qry, int(args.k), int(args.s), verbose=False)
         msp = a.align()
         msp_r_start = msp["r"][0] if msp else None
-        print(f"Query Sequence {i + 1}: " + (f"{msp_r_start}\t(Additional Info: {msp})" if msp else f"No alignment found"))
+        print(f"Query Sequence {i + 1}: " + (f"{msp_r_start} (Additional Info: {msp})" if msp else f"No alignment found"))
 
     print()
 
