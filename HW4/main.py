@@ -19,13 +19,14 @@ def main():
     with open(ref_dir) as fasta:
         ref = fasta.read().split("\n", 1)[1].replace("\n", "")
 
+    # there might be multiple sequences
     with open(qry_dir) as fasta:
         qry_list = [seq.split("\n", 1)[1].replace("\n", "") for seq in fasta.read().split(">")[1:]]
 
     print()
 
     for i, qry in enumerate(qry_list):
-        a = BLASTLike(ref, qry, int(args.k), int(args.s), verbose=False)
+        a = BLASTLike(ref, qry, int(args.k), int(args.s), verbose=True)
         msp = a.align()
         msp_r_start = msp["r"][0] if msp else None
         print(f"Query Sequence {i + 1}: " + (f"{msp_r_start}\t(Additional Info: {msp})" if msp else f"No alignment found"))
